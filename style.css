@@ -1,0 +1,44 @@
+body {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+
+p {
+    color: white;
+    font-family: "Cardo", serif;
+    font-size: 2rem;
+    white-space: pre-line;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+h1 {
+    color: white;
+    font-family: "Inter", serif;
+}
+
+button {
+    font-size: 0.9rem;
+    padding: 5px 20px;
+    border: 1px solid hsl(0, 0%, 25%);
+    border-radius: 30%;
+    background-color: hsl(0, 0%, 100%, 10%);
+    color: hsl(0, 0%, 25%);
+}
+
+button:hover {
+    border: 1px solid hsl(0, 0%, 26.5%);
+    background-color: hsl(0, 0%, 100%, 11.5%);
+    color: hsl(0, 0%, 26.5%);
+    cursor: pointer;
+}
+
+button:active {
+    border: 1px solid hsl(0, 0%, 28%);
+    background-color: hsl(0, 0%, 100%, 13%);
+    color: hsl(0, 0%, 28%);
+}

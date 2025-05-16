@@ -27,18 +27,29 @@ button {
     border: 1px solid hsl(0, 0%, 25%);
     border-radius: 30%;
     background-color: hsl(0, 0%, 100%, 10%);
-    color: hsl(0, 0%, 25%);
+    color: hsl(0, 0%, 60%);
+    margin-bottom: 100px;
+}
+
+button[type="submit"] {
+    margin-top: 30px;
 }
 
 button:hover {
     border: 1px solid hsl(0, 0%, 26.5%);
     background-color: hsl(0, 0%, 100%, 11.5%);
-    color: hsl(0, 0%, 26.5%);
+    color: hsl(0, 0%, 61.5%);
     cursor: pointer;
 }
 
 button:active {
     border: 1px solid hsl(0, 0%, 28%);
     background-color: hsl(0, 0%, 100%, 13%);
-    color: hsl(0, 0%, 28%);
+    color: hsl(0, 0%, 63%);
+}
+
+input {
+    background-color: hsl(0, 0%, 100%, 10%);
+    border: 1px solid hsl(0, 0%, 25%);
+    color: white;
 }

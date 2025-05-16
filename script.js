@@ -1,5 +1,7 @@
 const button = document.getElementById("buttonblock");
 const quoteblock = document.getElementById("quoteblock");
+const quoteinput = document.getElementById("quoteInput");
+const authorinput = document.getElementById("authorInput");
 let quotes = [];
 
 async function loadQuotes() {
@@ -34,6 +36,26 @@ function getRandomQuote() {
 
         localStorage.setItem("lastQuote", newQuote);
     }, 300);
+}
+
+function sendQuote() {
+    const quote = quoteinput.value.trim();
+    const author = authorinput.value.trim() || "User";
+
+    if (!quote) return alert("Sended quote can't be empty");
+
+    fetch('http://localhost:3000/add-quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: quote + "\n- " + author })
+    })
+    .then(res => res.text())
+    .then(msg => {
+        alert(msg);
+        quoteinput.value = "";
+        authorinput.value = "";
+    })
+    .catch(err => console.error(err));
 }
 
 window.addEventListener("DOMContentLoaded", () => {

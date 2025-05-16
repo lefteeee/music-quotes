@@ -6,7 +6,7 @@ let quotes = [];
 
 async function loadQuotes() {
     try {
-        const response = await fetch("quotes.json");
+        const response = await fetch("https://raw.githubusercontent.com/lefteeee/music-quotes/refs/heads/main/quotes.json");
         quotes = await response.json();
     } catch (err) {
         console.error("Loading quotes JSON error: ", err);
@@ -44,7 +44,7 @@ function sendQuote() {
 
     if (!quote) return alert("Sended quote can't be empty");
 
-    fetch('http://localhost:3000/add-quote', {
+    fetch('https://music-quotes-backend.onrender.com/add-quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: quote + "\n- " + author })

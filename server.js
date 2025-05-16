@@ -1,27 +1,44 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
+const { Pool } = require('pg');
+require('dotenv').config();
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 app.use(cors());
 app.use(express.static('client'));
 app.use(express.json());
 
-app.post('/add-quote', (req, res) => {
-    const newQuote = req.body.text;
+app.post('/add-quote', async (req, res) => {
+    const { quote, author } = req.body;
 
-    fs.readFile('quotes.json', 'utf8', (err, data) => {
-        if (err) return res.status(500).send('Error reading file');
+    if (!quote || !author) return res.status(400).send('Missing quote or author');
 
-        let quotes = JSON.parse(data);
-        quotes.push(newQuote);
+    try {
+        await pool.query('INSERT INTO quotes (quote, author) VALUES ($1, $2)', [quote, author]);
+        res.status(200).send('Quote added');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error saving to database');
+    }
+});
 
-        fs.writeFile('quotes.json', JSON.stringify(quotes, null, 2), err => {
-            if (err) return res.status(500).send('Error writing file');
-            res.status(200).send('Quote added');
-        });
-    });
+app.get('/random-quote', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT quote, author FROM quotes ORDER BY RANDOM() LIMIT 1');
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error reading from database');
+    }
 });
 
 app.listen(PORT, () => console.log(`Server running at https://localhost:${PORT}`));

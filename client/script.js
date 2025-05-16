@@ -6,36 +6,31 @@ let quotes = [];
 
 async function loadQuotes() {
     try {
-        const response = await fetch("https://raw.githubusercontent.com/lefteeee/music-quotes/refs/heads/main/quotes.json");
+        const response = await fetch("/quotes");
         quotes = await response.json();
     } catch (err) {
-        console.error("Loading quotes JSON error: ", err);
+        console.error("Loading quotes error: ", err);
     }
 }
 
-function getRandomQuote() {
-    if (quotes.length === 0) return;
+async function getRandomQuote() {
+    try {
+        const response = await fetch('https://music-quotes-backend.onrender.com/add-quote');
+        const { quote, author } = await response.json();
 
+        quoteblock.style.opacity = 0;
 
-    const currentQuote = quoteblock.textContent;
-    let newQuote = currentQuote;
+        setTimeout(() => {
+            quoteblock.textContent = `${quote}\n- ${author}`;
+            quoteblock.style.opacity = 1;
 
-    if (quotes.length === 1) {
-        newQuote = quotes[1];
-    } else {
-        while (newQuote === currentQuote) {
-            newQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        }
+            localStorage.setItem("lastQuote", `${quote}\n- ${author}`);
+        }, 300);
+
+    } catch (err) {
+        console.error("Failed to fetch quote", err);
     }
-
-    quoteblock.style.opacity = 0;
-
-    setTimeout(() => {
-        quoteblock.textContent = newQuote;
-        quoteblock.style.opacity = 1;
-
-        localStorage.setItem("lastQuote", newQuote);
-    }, 300);
+ 
 }
 
 function sendQuote() {
@@ -47,7 +42,7 @@ function sendQuote() {
     fetch('https://music-quotes-backend.onrender.com/add-quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: quote + "\n- " + author })
+        body: JSON.stringify({ quote, author })
     })
     .then(res => res.text())
     .then(msg => {

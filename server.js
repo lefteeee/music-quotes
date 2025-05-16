@@ -5,7 +5,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use(express.static(__dirname));
+app.use(express.static('client'));
 app.use(express.json());
 
 app.post('/add-quote', (req, res) => {

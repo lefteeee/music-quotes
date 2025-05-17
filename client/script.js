@@ -15,7 +15,7 @@ async function loadQuotes() {
 
 async function getRandomQuote() {
     try {
-        const response = await fetch('https://music-quotes-backend.onrender.com/add-quote');
+        const response = await fetch('https://music-quotes-backend.onrender.com/random-quote');
         const { quote, author } = await response.json();
 
         quoteblock.style.opacity = 0;

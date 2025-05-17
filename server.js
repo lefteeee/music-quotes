@@ -41,4 +41,14 @@ app.get('/random-quote', async (req, res) => {
     }
 });
 
+app.get('/quotes', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT quote, author FROM quotes');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error reading from database');
+    }
+})
+
 app.listen(PORT, () => console.log(`Server running at https://localhost:${PORT}`));
